@@ -54,11 +54,11 @@
 
 ## 环境构建流程
 
-### GCC 5.2
+### GCC 7.2.0
 
 1. 解压进入gcc5.2源码目录，执行如下脚本安装MPFR,GMP,MPC,ISL
 
-   `./contrib/download_prerequisites`
+   `./contrib/download_prerequisites --no-verify`
 
 2. 在源码路径之外新建一个文件夹并进入
 
@@ -82,18 +82,7 @@
 
    把之前生成的该文件复制过来，覆盖掉此处的该文件
 
-2. `vim ../gcc-5.2.0/libgcc/config/t-softfp` 
-
-   106行把else和ifneq分为两行
-
-   ```
-   else
-   ifneq ($(softfp_wrap_start),)
-   ```
-
-   113行在文件末尾加一行 `endif`
-
-3. 很多宏没有定义
+2. 很多宏没有定义
 
    ```
    vim /usr/include/sys/ptrace.h
@@ -245,3 +234,56 @@
   ./testsuite/testsuite.test
   make install
   ```
+
+
+
+## 附注
+
+### GCC 5.2
+
+1. 解压进入gcc5.2源码目录，执行如下脚本安装MPFR,GMP,MPC,ISL
+
+   `./contrib/download_prerequisites`
+
+2. 在源码路径之外新建一个文件夹并进入
+
+3. 执行 `unset CPLUS_INCLUDE_PATH LIBRARY_PATH C_INCLUDE_PATH` 避免之后的头文件库文件找不到
+
+4. ```
+   ../gcc-5.2.0/configure --prefix=/usr \
+   --enable-checking=release \
+   --enable-languages=c,c++ \
+   --disable-multilib \
+   --enable-threads=posix
+   ```
+
+5. `make`
+
+6. `make install`
+
+**`make`期间的错误处理**
+
+1. `pic/libiberty.a`文件出错
+
+   把之前生成的该文件复制过来，覆盖掉此处的该文件
+
+2. `vim ../gcc-5.2.0/libgcc/config/t-softfp` 
+
+   106行把else和ifneq分为两行
+
+   ```
+   else
+   ifneq ($(softfp_wrap_start),)
+   ```
+
+   113行在文件末尾加一行 `endif`
+
+3. 很多宏没有定义
+
+   ```
+   vim /usr/include/sys/ptrace.h
+   vim /usr/include/linux/fs.h
+   vim /usr/include/linux/input.h
+   ```
+
+   如上几个文件包含了缺失的宏，可去其他系统把对应的定义复制过来
