@@ -1,0 +1,146 @@
+
+git push origin master
+
+
+
+uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
+                               -e s/arm.*/arm/ -e s/sa110/arm/ \
+                               -e s/s390x/s390/ -e s/parisc64/parisc/ \
+                               -e s/ppc.*/powerpc/
+
+
+# glibc_list=('2.3.6' '2.4' '2.5' '2.5.1')
+# binutils_list=('2.15a' '2.16.1' '2.18a' '2.19.1a' '2.20.1a' '2.21.1a' '2.21.53' '2.22' '2.23.1' '2.23.2' '2.24' '2.25' '2.25.1')
+# gcc_list=('4.8.1' '4.8.2' '4.8.3' '4.8.4' '4.8.5' '4.9.0' '4.9.1' '4.9.2' '4.9.3' '4.9.4' '5.1.0' '5.2.0' '5.3.0' '5.4.0')
+
+
+================================================================================================================================================
+
+
+
+
+chroot /mnt /usr/bin/env -i \
+    HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin \
+    /bin/bash --login
+
+
+
+==========================================================================================================================
+
+---64---
+export LD_LIBRARY_PATH=/usr/local/gcc-520/lib64:$LD_LIBRARY_PATH && export LD_RUN_PATH=/usr/local/gcc-520/lib64:$LD_RUN_PATH && export PATH=/usr/local/gcc-520/bin:$PATH
+
+g++ -std=c++11 -static-libstdc++ -static-libgcc -Wl,-rpath -Wl,/usr/local/gcc-520/lib64 -L/usr/local/gcc-520/lib64
+
+---32---
+export LD_LIBRARY_PATH=/usr/local/gcc-520/lib:$LD_LIBRARY_PATH &&
+export LD_RUN_PATH=/usr/local/gcc-520/lib:$LD_RUN_PATH &&
+export PATH=/usr/local/gcc-520/bin:$PATH
+
+g++ -std=c++11 -static-libstdc++ -static-libgcc -Wl,-rpath -Wl,/usr/local/gcc-520/lib -L/usr/local/gcc-520/lib 
+
+==========================================================================================================================
+
+
+../gcc-5.2.0/configure --prefix=/usr/local/gcc-520 --enable-checking=release --enable-languages=c,c++ --disable-multilib --enable-threads=posix 
+
+../gcc-5.2.0/configure --prefix=/usr --enable-checking=release --enable-languages=c,c++ --enable-threads=posix --disable-multilib
+==========================================================================================================================
+
+vim ../gcc-5.2.0/libgcc/config/t-softfp
+
+vim /usr/include/sys/ptrace.h
+vim /usr/include/linux/input.h
+vim /usr/include/linux/fs.h
+缺失的定义在这里
+
+==========================================================================================================================
+
+
+unset CPLUS_INCLUDE_PATH LIBRARY_PATH C_INCLUDE_PATH
+
+
+=====================================================================
+
+
+make[4]: Entering directory `/home/code/build-gcc/lto-plugin'
+/bin/sh ./libtool --tag=CC --tag=disable-static  --mode=link gcc -Wall -g -Wc,-static-libgcc  -module -bindir /usr/libexec/gcc/x86_64-unknown-linux-gnu/5.2.0    -o liblto_plugin.la -rpath /usr/libexec/gcc/x86_64-unknown-linux-gnu/5.2.0 lto-plugin.lo  -Wc,../libiberty/pic/libiberty.a 
+libtool: link: gcc -shared  -fPIC -DPIC  .libs/lto-plugin.o    -static-libgcc ../libiberty/pic/libiberty.a   -Wl,-soname -Wl,liblto_plugin.so.0 -o .libs/liblto_plugin.so.0.0.0
+/usr/lib64/gcc/x86_64-suse-linux/4.1.0/../../../../x86_64-suse-linux/bin/ld: ../libiberty/pic/libiberty.a(simple-object-coff.o): relocation R_X86_64_PC32 against undefined symbol `simple_object_set_big_16' can not be used when making a shared object; recompile with -fPIC
+/usr/lib64/gcc/x86_64-suse-linux/4.1.0/../../../../x86_64-suse-linux/bin/ld: final link failed: Bad value
+collect2: ld returned 1 exit status
+make[4]: *** [liblto_plugin.la] Error 1
+make[4]: Leaving directory `/home/code/build-gcc/lto-plugin'
+make[3]: *** [all] Error 2
+make[3]: Leaving directory `/home/code/build-gcc/lto-plugin'
+make[2]: *** [all-stage1-lto-plugin] Error 2
+make[2]: Leaving directory `/home/code/build-gcc'
+make[1]: *** [stage1-bubble] Error 2
+make[1]: Leaving directory `/home/code/build-gcc'
+make: *** [all] Error 2
+
+
+==================================================================================
+
+
+
+make  all-am
+make[4]: Entering directory `/home/code/build-gcc/lto-plugin'
+/bin/sh ./libtool --tag=CC --tag=disable-static  --mode=compile gcc -DHAVE_CONFIG_H -I. -I../../gcc-5.2.0/lto-plugin  -I../../gcc-5.2.0/lto-plugin/../include -DHAVE_CONFIG_H  -Wall -g -c -o lto-plugin.lo ../../gcc-5.2.0/lto-plugin/lto-plugin.c
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../gcc-5.2.0/lto-plugin -I../../gcc-5.2.0/lto-plugin/../include -DHAVE_CONFIG_H -Wall -g -c ../../gcc-5.2.0/lto-plugin/lto-plugin.c  -fPIC -DPIC -o .libs/lto-plugin.o
+/bin/sh ./libtool --tag=CC --tag=disable-static  --mode=link gcc -Wall -g -Wc,-static-libgcc  -module -bindir /usr/libexec/gcc/i686-pc-linux-gnu/5.2.0    -o liblto_plugin.la -rpath /usr/libexec/gcc/i686-pc-linux-gnu/5.2.0 lto-plugin.lo  -Wc,../libiberty/pic/libiberty.a 
+libtool: link: gcc -shared  -fPIC -DPIC  .libs/lto-plugin.o    -static-libgcc ../libiberty/pic/libiberty.a   -Wl,-soname -Wl,liblto_plugin.so.0 -o .libs/liblto_plugin.so.0.0.0
+/usr/lib/gcc/i586-suse-linux/4.1.0/../../../../i586-suse-linux/bin/ld: ../libiberty/pic/libiberty.a(simple-object-coff.o): relocation R_386_GOTOFF against undefined symbol `simple_object_set_big_16' can not be used when making a shared object
+/usr/lib/gcc/i586-suse-linux/4.1.0/../../../../i586-suse-linux/bin/ld: final link failed: Bad value
+collect2: ld returned 1 exit status
+make[4]: *** [liblto_plugin.la] Error 1
+make[4]: Leaving directory `/home/code/build-gcc/lto-plugin'
+make[3]: *** [all] Error 2
+make[3]: Leaving directory `/home/code/build-gcc/lto-plugin'
+make[2]: *** [all-stage1-lto-plugin] Error 2
+make[2]: Leaving directory `/home/code/build-gcc'
+make[1]: *** [stage1-bubble] Error 2
+make[1]: Leaving directory `/home/code/build-gcc'
+make: *** [all] Error 2
+==================================================================================
+
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:307:28: error: ‘PTRACE_GETEVENTMSG’ was not declared in this scope
+   int ptrace_geteventmsg = PTRACE_GETEVENTMSG;
+                            ^
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:479:30: error: ‘EVIOCGREP’ was not declared in this scope
+   unsigned IOCTL_EVIOCGREP = EVIOCGREP;
+                              ^
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:488:30: error: ‘EVIOCSREP’ was not declared in this scope
+   unsigned IOCTL_EVIOCSREP = EVIOCSREP;
+                              ^
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:775:36: error: ‘FS_IOC_GETFLAGS’ was not declared in this scope
+   unsigned IOCTL_FS_IOC_GETFLAGS = FS_IOC_GETFLAGS;
+                                    ^
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:776:38: error: ‘FS_IOC_GETVERSION’ was not declared in this scope
+   unsigned IOCTL_FS_IOC_GETVERSION = FS_IOC_GETVERSION;
+                                      ^
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:777:36: error: ‘FS_IOC_SETFLAGS’ was not declared in this scope
+   unsigned IOCTL_FS_IOC_SETFLAGS = FS_IOC_SETFLAGS;
+                                    ^
+../../../../gcc-5.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:778:38: error: ‘FS_IOC_SETVERSION’ was not declared in this scope
+   unsigned IOCTL_FS_IOC_SETVERSION = FS_IOC_SETVERSION;
+                                      ^
+make[4]: *** [sanitizer_platform_limits_posix.lo] Error 1
+make[4]: Leaving directory `/home/code/build-gcc/i686-pc-linux-gnu/libsanitizer/sanitizer_common'
+make[3]: *** [all-recursive] Error 1
+make[3]: Leaving directory `/home/code/build-gcc/i686-pc-linux-gnu/libsanitizer'
+make[2]: *** [all] Error 2
+make[2]: Leaving directory `/home/code/build-gcc/i686-pc-linux-gnu/libsanitizer'
+make[1]: *** [all-target-libsanitizer] Error 2
+make[1]: Leaving directory `/home/code/build-gcc'
+make: *** [all] Error 2
+
+
+
+
+
+
+
+
+
