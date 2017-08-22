@@ -1,0 +1,12 @@
+ftp://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz
+ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.68.tar.gz
+ftp://ftp.gnu.org/gnu/automake/automake-1.14.1.tar.gz
+ftp://ftp.gnu.org/gnu/binutils/binutils-2.25.1.tar.gz
+ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.4.tar.gz
+ftp://ftp.gnu.org/gnu/make/make-4.2.1.tar.gz
+ftp://ftp.gnu.org/gnu/m4/m4-1.4.14.tar.gz
+https://nchc.dl.sourceforge.net/project/lzmautils/xz-5.2.3.tar.gz
+https://dist.libuv.org/dist/v1.13.1/libuv-v1.13.1.tar.gz
+http://luajit.org/download/LuaJIT-2.0.5.tar.gz
+https://archive.mozilla.org/pub/security/nss/releases/NSS_3_32_RTM/src/nss-3.32-with-nspr-4.16.tar.gz
+ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.23.tar.gz

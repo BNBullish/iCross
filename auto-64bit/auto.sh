@@ -23,20 +23,20 @@ CODETMP=$SOURCEDIR/codetmp
 BUILDDIR=$SOURCEDIR/buildtmp
 
 # tool sources tar
-XZDIR=$SOURCEDIR/xz-5.2.3.tar.bz2
-BINDIR=$SOURCEDIR/binutils-2.25.1.tar.bz2
+XZDIR=$SOURCEDIR/xz-5.2.3.tar.gz
+BINDIR=$SOURCEDIR/binutils-2.25.1.tar.gz
 GCCNEWDIR=$SOURCEDIR/gcc-7.2.0.tar.gz
 M4DIR=$SOURCEDIR/m4-1.4.14.tar.gz
-AUTOCONFDIR=$SOURCEDIR/autoconf-2.68.tar
+AUTOCONFDIR=$SOURCEDIR/autoconf-2.68.tar.gz
 AUTOMAKEDIR=$SOURCEDIR/automake-1.14.1.tar.gz
-MAKEDIR=$SOURCEDIR/make-4.2.1.tar.bz2
+MAKEDIR=$SOURCEDIR/make-4.2.1.tar.gz
 LIBTOOLDIR=$SOURCEDIR/libtool-2.4.4.tar.gz
 
 
 # lib sources tar
 NSSDIR=$SOURCEDIR/nss-3.32-with-nspr-4.16.tar.gz
 LUAJITDIR=$SOURCEDIR/LuaJIT-2.0.5.tar.gz
-PCRE2DIR=$SOURCEDIR/pcre2-10.23.tar.bz2
+PCRE2DIR=$SOURCEDIR/pcre2-10.23.tar.gz
 LIBUVDIR=$SOURCEDIR/libuv-v1.13.1.tar.gz
 WOLFSSLDIR=$SOURCEDIR/wolfssl-3.12.0.zip
 
@@ -291,8 +291,11 @@ function check_install(){
 
 date > /var/iCross.log
 
-mkdir -p $LOGDIR
+echo "Download tools..."
+wget --no-check-certificate --input-file=tool_download_list.txt --continue --directory-prefix=sources/ 1> $LOGDIR/download-tools.log 2>&1
 
+mkdir -p $LOGDIR
+echo "Install RPM packages..."
 rpm_install
 
 check_install xz 5.2.3 4 $XZDIR

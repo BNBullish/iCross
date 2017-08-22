@@ -23,18 +23,20 @@ CODETMP=$SOURCEDIR/codetmp
 BUILDDIR=$SOURCEDIR/buildtmp
 
 # tool sources tar
-XZDIR=$SOURCEDIR/xz-5.2.3.tar.bz2
-BINDIR=$SOURCEDIR/binutils-2.25.1.tar.bz2
-GCCNEWDIR=$SOURCEDIR/gcc-5.2.0.tar.bz2
+XZDIR=$SOURCEDIR/xz-5.2.3.tar.gz
+BINDIR=$SOURCEDIR/binutils-2.25.1.tar.gz
+GCCNEWDIR=$SOURCEDIR/gcc-7.2.0.tar.gz
 M4DIR=$SOURCEDIR/m4-1.4.14.tar.gz
-AUTOCONFDIR=$SOURCEDIR/autoconf-2.68.tar
+AUTOCONFDIR=$SOURCEDIR/autoconf-2.68.tar.gz
 AUTOMAKEDIR=$SOURCEDIR/automake-1.14.1.tar.gz
-MAKEDIR=$SOURCEDIR/make-4.2.1.tar.bz2
+MAKEDIR=$SOURCEDIR/make-4.2.1.tar.gz
+LIBTOOLDIR=$SOURCEDIR/libtool-2.4.4.tar.gz
+
 
 # lib sources tar
 NSSDIR=$SOURCEDIR/nss-3.32-with-nspr-4.16.tar.gz
 LUAJITDIR=$SOURCEDIR/LuaJIT-2.0.5.tar.gz
-PCRE2DIR=$SOURCEDIR/pcre2-10.23.tar.bz2
+PCRE2DIR=$SOURCEDIR/pcre2-10.23.tar.gz
 LIBUVDIR=$SOURCEDIR/libuv-v1.13.1.tar.gz
 WOLFSSLDIR=$SOURCEDIR/wolfssl-3.12.0.zip
 
@@ -125,11 +127,11 @@ function part_tool_install(){
 }
 
 function gcc_install(){
-	echo 'gcc 5.2 installing...'
+	echo 'gcc 7.2.0 installing...'
 	mkdir $CODETMP
 	tar -xf $GCCNEWDIR --strip-components=1 -C $CODETMP
 	cd $CODETMP
-	./contrib/download_prerequisites 1> $LOGDIR/gcc-predownload.log 2>&1
+	./contrib/download_prerequisites --no-verify 1> $LOGDIR/gcc-predownload.log 2>&1
 	cd $OLDPWD
 	mkdir $BUILDDIR && cd $BUILDDIR
 	$OLDPWD/$CODETMP/configure --prefix=/usr \
@@ -142,11 +144,11 @@ function gcc_install(){
 		cp $OLDPWD/$PIC ./libiberty/pic/libiberty.a
 	fi
 	make 1> $LOGDIR/gcc-make2.log 2>&1
-	if [[ $? -ne 0 ]]; then
-		sed -i '106s/[ ]/\n/' $OLDPWD/$CODETMP/libgcc/config/t-softfp
-		sed -i '$ aendif' $OLDPWD/$CODETMP/libgcc/config/t-softfp
-	fi
-	make 1> $LOGDIR/gcc-make3.log 2>&1
+	# if [[ $? -ne 0 ]]; then
+	# 	sed -i '106s/[ ]/\n/' $OLDPWD/$CODETMP/libgcc/config/t-softfp
+	# 	sed -i '$ aendif' $OLDPWD/$CODETMP/libgcc/config/t-softfp
+	# fi
+	# make 1> $LOGDIR/gcc-make3.log 2>&1
 	if [[ $? -ne 0 ]]; then
 		cp $OLDPWD/$PTRACE /usr/include/sys/ptrace.h
 		cp $OLDPWD/$INPUT /usr/include/linux/input.h
@@ -154,7 +156,7 @@ function gcc_install(){
 	fi
 	make 1> $LOGDIR/gcc-make4.log 2>&1
 	if [[ $? -ne 0 ]]; then
-		echo 'GCC 5.2.0 make fail! Exit!' >> /var/iCross.log
+		echo 'GCC 7.2.0 make fail! Exit!' >> /var/iCross.log
 		exit
 	fi
 	make install 1> $LOGDIR/gcc-makeinstall.log 2>&1
@@ -162,7 +164,7 @@ function gcc_install(){
 	cd $OLDPWD
 	rm -rf $CODETMP
 	rm -rf $BUILDDIR
-	echo 'gcc 5.2 finish'
+	echo 'gcc 7.2.0 finish'
 }
 
 function tool_install(){
@@ -288,13 +290,17 @@ function check_install(){
 
 date > /var/iCross.log
 
-mkdir -p $LOGDIR
+echo "Download tools..."
+wget --no-check-certificate --input-file=tool_download_list.txt --continue --directory-prefix=sources/ 1> $LOGDIR/download-tools.log 2>&1
 
+mkdir -p $LOGDIR
+echo "Install RPM packages..."
 rpm_install
 
 check_install xz 5.2.3 4 $XZDIR
 check_install ld 2.25.1 5 $BINDIR
-check_install gcc 5.2.0 3 $GCCNEWDIR
+check_install libtool 2.4.4 4 $LIBTOOLDIR
+check_install gcc 7.2.0 3 $GCCNEWDIR
 check_install m4 1.4.14 4 $M4DIR
 check_install autoconf 2.68 4 $AUTOCONFDIR
 check_install automake 1.14.1 4 $AUTOMAKEDIR
