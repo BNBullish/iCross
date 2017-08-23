@@ -290,11 +290,12 @@ function check_install(){
 }
 
 date > /var/iCross.log
+mkdir -p $LOGDIR
 
 echo "Download tools..."
 wget --no-check-certificate --input-file=tool_download_list.txt --continue --directory-prefix=sources/ 1> $LOGDIR/download-tools.log 2>&1
 
-mkdir -p $LOGDIR
+
 echo "Install RPM packages..."
 rpm_install
 
