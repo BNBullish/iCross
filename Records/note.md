@@ -241,3 +241,17 @@ git checkout origin/1.16  #这里后面的是举例
 
 以make为例 : `make 1> tmp.log 2>&1`
 
+---
+
+### 获取文件名和后缀名
+
+```
+代码：
+file=”thisfile.txt”
+echo “filename: ${file%.*}”
+echo “extension: ${file##*.}”
+输出：
+filename: thisfile
+extension: txt
+```
+
