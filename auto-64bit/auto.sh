@@ -292,12 +292,11 @@ function check_install(){
 date > /var/iCross.log
 mkdir -p $LOGDIR
 
-echo "Download tools..."
-wget --no-check-certificate --input-file=tool_download_list.txt --continue --directory-prefix=sources/ 1> $LOGDIR/download-tools.log 2>&1
-
-
 echo "Install RPM packages..."
 rpm_install
+
+echo "Download tools..."
+wget --no-check-certificate --input-file=tool_download_list.txt --continue --directory-prefix=sources/ 1> $LOGDIR/download-tools.log 2>&1
 
 check_install xz 5.2.3 4 $XZDIR
 check_install ld 2.25.1 5 $BINDIR
