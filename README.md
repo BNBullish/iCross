@@ -6,8 +6,7 @@
 
 ## 使用说明
 
-├─iCross  
-
+iCross  
   ├─auto-32bit		//32位  
   │  ├─include		 //包含缺少的宏的三个头文件  
   │  ├─libiberty-pic       //编译过程中出错的生成文件  
