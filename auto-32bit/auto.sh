@@ -1,5 +1,9 @@
 #! /bin/bash
 
+# You'd better remove sources/buildtmp and sources/codetmp 
+# without necessary reasons(eg.while building gcc)
+# before repeated running this shell script.
+
 RPMDIR=rpms
 SOURCEDIR=sources
 OPT=/home/opt
