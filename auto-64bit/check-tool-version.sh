@@ -8,7 +8,6 @@ echo $MYSH | grep -q bash || echo "ERROR: /bin/sh does not point to bash"
 unset MYSH
 
 echo -n "Binutils: "; ld --version | head -n1 | cut -d" " -f3-
-bison --version | head -n1
 
 if [ -h /usr/bin/yacc ]; then
   echo "/usr/bin/yacc -> `readlink -f /usr/bin/yacc`";
@@ -40,11 +39,9 @@ gzip --version | head -n1
 cat /proc/version
 m4 --version | head -n1
 make --version | head -n1
-patch --version | head -n1
 echo Perl `perl -V:version`
 sed --version | head -n1
 tar --version | head -n1
-makeinfo --version | head -n1
 xz --version | head -n1
 
 echo 'int main(){}' > dummy.c && g++ -o dummy dummy.c

@@ -1,4 +1,43 @@
-# 构建流程
+## 详细介绍
+
+**参见 [iCross](./iCross.md)**
+
+
+
+## 使用说明
+
+├─iCross
+  ├─auto-32bit		//32位
+  │  ├─include		 //包含缺少的宏的三个头文件
+  │  ├─libiberty-pic       //编译过程中出错的生成文件
+  │  ├─rpms		       //提前需要安装的rpm包
+  │  ├─sources              //需要编译的源码包
+  │  ├─auto.sh               //自动化部署脚本
+  │  ├─check-tool-version.sh    //检查系统相关工具版本
+  │  └─tool_download_list.txt    //源码下载地址列表
+  ├─auto-64bit		//64位
+  │  ├─include		 //包含缺少的宏的三个头文件
+  │  ├─libiberty-pic       //编译过程中出错的生成文件
+  │  ├─rpms		       //提前需要安装的rpm包
+  │  ├─sources              //需要编译的源码包
+  │  ├─auto.sh               //自动化部署脚本
+  │  ├─check-tool-version.sh    //检查系统相关工具版本
+  │  └─tool_download_list.txt    //源码下载地址列表
+  ├─Records                  //进度与工作内容记录
+  ├─fabfile.py                //用于统一部署测试的简单脚本
+  ├─iCross.md               //项目介绍
+  └─README.md           //详细流程
+
+- 将`auto-32bit` 或 `auto-64bit` 传至对应系统中
+- 进入该目录，执行`bash auto.sh`
+- 漫长的等待 ……
+- 详细日志存放于 `/var/iCross-Auto-Shell` ，简略日志记录在`/var/iCross.log`
+- 简单的检测功能以避免重复安装
+- 可自行下载源码包放置于`sources`目录下
+
+
+
+## 构建流程
 
 1. 准备好suse10.1镜像
 
