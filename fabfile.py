@@ -77,3 +77,18 @@ def remove_dir_64(project_file='cppbin-64'):
 @roles('groupto64')
 def shutdown_64():
     run("shutdown -h now")
+
+#======================================================
+
+@roles('groupto64')
+def run_nginx_get_64(project_file='nginx-64'):
+    with cd ('/tmp/%s' %project_file):
+        run("cp sbin/nginx .")
+        run("./nginx")
+
+@roles('groupto32')
+def run_nginx_get_32(project_file='nginx-32'):
+    with cd ('/tmp/%s' %project_file):
+        run("cp sbin/nginx .")
+        run("./nginx")
+
