@@ -7,14 +7,14 @@
 ## 使用说明
 
 iCross  
-  ├─auto-32bit		         //32位  
-  │  ├─include		         //包含缺少的宏的三个头文件  
-  │  ├─libiberty-pic       //编译过程中出错的生成文件  
-  │  ├─rpms		             //提前需要安装的rpm包  
-  │  ├─sources             //需要编译的源码包  
-  │  ├─auto.sh               //自动化部署脚本  
-  │  ├─check-tool-version.sh    //检查系统相关工具版本  
-  │  └─tool_download_list.txt    //源码下载地址列表  
+  ├─auto-32bit----------32位  
+  │  ├─include----------包含缺少的宏的三个头文件  
+  │  ├─libiberty-pic----编译过程中出错的生成文件  
+  │  ├─rpms-------------提前需要安装的rpm包  
+  │  ├─sources----------需要编译的源码包  
+  │  ├─auto.sh----------自动化部署脚本  
+  │  ├─check-tool-version.sh--检查系统相关工具版本  
+  │  └─tool_download_list.txt-源码下载地址列表  
   ├─auto-64bit		//64位  
   │  ├─include		 //包含缺少的宏的三个头文件  
   │  ├─libiberty-pic       //编译过程中出错的生成文件  
