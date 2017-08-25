@@ -25,8 +25,8 @@ iCross
   │  └─tool_download_list.txt-源码下载地址列表 
   ├─Records-------------------进度与工作内容记录  
   ├─fabfile.py----------------用于统一部署测试的简单脚本  
-  ├─iCross.md-----------------项目介绍  
-  └─README.md-----------------详细流程  
+  ├─iCross.md----------------项目介绍  
+  └─README.md-------------详细流程  
 
 - 将`auto-32bit` 或 `auto-64bit` 传至对应系统中
 - 进入该目录，执行`bash auto.sh`
