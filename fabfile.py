@@ -103,6 +103,8 @@ def run_nginx_get_64(project_file='nginx-64'):
             run("/usr/sbin/useradd -g nobody nobody")
         except:
             pass
+        host = env.host_string
+        run("sed s/(^<title>)(.*)(</title>$)/\1%s\3/g" %host)
         run("./nginx")
 
 @roles('groupto32')
